@@ -19,7 +19,7 @@
 				overflow: hidden;
 			}
 			
-			.bg {
+			#bg {
 				position: relative;
 				margin: auto;
 				width: fit-content;
@@ -38,7 +38,7 @@
 			    transform: translate(-50%, 0);
 			    z-index: 2;
 			}
-			#KaiShiYouXi{
+			.KaiShiYouXi{
 				position: absolute;
 				height: 100vh;
 				left: 50%;
@@ -48,36 +48,45 @@
 		</style>
 		<title>丰子恺与四季诗画</title>
 		    <script type="text/javascript">
-			 function click(){
-				var timer1 = setInterval(colorLiner,20);
-				var val1 = 100;
-				     function colorLiner(){
-
-				         var Div = document.getElementById('KaiShiYouXi');
-				         if(val1 >= 0)
-				         {
-				             Div.style.opacity = val1/100;    
-				         }
-				         if(val1 < 0)
-				         {
-				             Div.style.opacity = -val1/100;
-				         }
-				         if(val1 == -100)//由-100变为正100
-				         {
-				             val1 = -val1;
-				         }
-				         val1--;
-				     }    
-			 }
-			 
+				window.onload=function(){
+					
+					let div = document.getElementById("bg");
+					let timer = null;
+					let objs = document.getElementsByClassName("KaiShiYouXi");
+					objs[0].onclick=function(){
+						console.log(1);
+						let cur = 100;
+						//乘100 是为了适当放大，便于操作 最后设置属性值的时候 还要除回来
+						timer = setInterval(function() {
+							let step =  cur / 10; ///1是终点 由于起点扩大了100倍，终点也扩大100倍
+							console.log(step);
+							console.log(cur);
+							//处理步长
+							step = step > 0 ? Math.ceil(step) : Math.floor(step);
+							cur -= step;
+							
+							//判断终点
+							if (step > 0 && cur <= 0) {
+								clearInterval(timer);
+								cur = 0;
+							} 
+							//设置
+							div.style.opacity = cur/100;
+						}, 50)
+					}
+				}
+				
+				
+					
+		     
 		    </script>
 	</head>
 	<body>
 		<div class="container">
-			<div class="bg">
+			<div id="bg">
 				<img class="bgimg" src="image/2023_11_29_IMG_8113/背景.PNG">
 				<img class="FengYe" src="image/2023_11_29_IMG_8113/枫叶.PNG">
-				<div id = "KaiShiYouXi"><img src="image/2023_11_29_IMG_8113/开始游戏按钮.PNG" onclick="click()"></div>
+				<img class = "KaiShiYouXi" src="image/2023_11_29_IMG_8113/开始游戏按钮.PNG" >
 			</div>
 		</div>
 	</body>
